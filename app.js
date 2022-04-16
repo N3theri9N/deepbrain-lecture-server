@@ -8,13 +8,17 @@ const { port } = process.env;
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-//app.use(cors()); 
+app.use(cors()); // express 에서 cors 허용 옵션 설정.. 여기 빠뜨리면 cors 오류
 const APP = './app/routes'
 // const nodes = ['admin','basic','board','game','todo','user']
-const nodes = ['basic','board','user']
+const nodes = ['basic']
 for(const leaf of nodes){
   require(`${APP}/${leaf}.route`)({url:`/api/${leaf}`,app})
-}
+} // node 에 해당하는 .route 접미사에 해당하는 내용이 app 으로 불러와진다.
+// 여기는 괄호가 2개인데 url 이 들어간 객체를 매개로 즉시실행된다.
+
+// route -> controller -> service 순서로 require 되는 형태다
+
 require(`${APP}/user.route`)({url:`/api/user`,app})
 
 const corsOptions = {
