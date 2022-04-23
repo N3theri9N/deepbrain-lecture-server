@@ -36,4 +36,9 @@ app.post('/login', cors(corsOptions), (req, res) => {
     UserService().login(req, res)
 })
 
+// passport jwt 인증처리 받고 맞으면 여기로 들어옴.
+app.get('/logout', passport.authenticate("jwt", {session: false}), (req, res) => {
+    UserService().logout(req, res);
+})
+
 export default app
