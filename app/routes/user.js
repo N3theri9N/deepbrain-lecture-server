@@ -2,6 +2,7 @@ import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
 import passport from 'passport'
+import UserService from "../services/user.js"
 
 dotenv.config()
 const mongoUri = process.env.MONGO_URI
@@ -27,7 +28,12 @@ app.use(function (_req, res, next) {
 
 // 서비스는 경로선언은 이렇게 분리되어있는데, 바닐라 스크립트로 만들어야하는 원칙때문.
 app.post('/join', cors(corsOptions), (req, res) => {
-    UserService().join(req, res)
+    UserService().join(req, res);
+})
+
+app.post('/login', cors(corsOptions), (req, res) => {
+    console.log("로그인 루트 진입");
+    UserService().login(req, res)
 })
 
 export default app

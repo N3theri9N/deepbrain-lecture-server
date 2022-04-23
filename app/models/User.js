@@ -12,11 +12,12 @@ export default function UserModel(mongoose){
         name: String,
         phone: String,
         birth: String,
-        address: String
+        address: String,
+        token: String
     });
 
     // mongoose 의 기본적인 메소드 추가 방식. userSchema.methods.....
-    userSchema.methods.comparePassword = (plainPassword, cb) => {
+    userSchema.methods.comparePassword = function(plainPassword, cb) {
 
         //cb는 (err,isMatch)이다. plainPassword 유저가 입력한 password
         console.log(' >> plainPassword >> ' + plainPassword)
@@ -40,13 +41,14 @@ export default function UserModel(mongoose){
 
     }
 
-    userSchema.methods.generateToken = (cb) => {
+    userSchema.methods.generateToken = function(cb) {
 
         var user = this;
         // json web token 이용하여 token 생성하기 user id 와 두번째 param 으로 토큰을 만들고, param 을 이용하여
         // 나중에 userid를 찾아낸다.
-        console.log(" jwtSecret >> "+ jwtSecret)
-        var token = jwt.sign(user._id.toHexString(), jwtSecret)
+        console.log(" jwtSecret >> "+ jwtSecret);
+        console.log(user);
+        var token = jwt.sign(user._id.toHexString(), "jwtSecret")
 
         user.token = token
         user.save(function (err, user) {
@@ -57,7 +59,7 @@ export default function UserModel(mongoose){
 
     }
 
-    userSchema.statics.findByToken = (token) => {
+    userSchema.statics.findByToken = function(token){
         var user = this;
 
         //userid를 찾으면 위에서 secret으로 넣어준다. 여기서 decode는 user_id(위에서 넘겨준)가 될 것이다.
@@ -74,9 +76,8 @@ export default function UserModel(mongoose){
         })
 
     }
-
+    return mongoose.model('User', userSchema);
 }
-
 /*
 
 module.exports = mongoose => mongoose.model('user',
