@@ -24,7 +24,7 @@ async function startServer() { //
     app.use(express.json());
     const _passport = applyPassport(passport, jwtSecret);
     app.use(_passport.initialize());
-    app.use("/", index);
+    app.use("/", index); // 라우트 함수
     app.use("/api", api);
     app.use("/basic", basic);
 //    app.use("/board", board);
