@@ -1,5 +1,9 @@
-import { Strategy, ExtractJwt } from "passport-jwt";
+
+import { ExtractJwt } from "passport-jwt";
+import { Strategy } from "passport-local"; //strategy 를 로컬에서 실행할시 이것을 사용
 import db from '../models/index.js'
+
+
 const applyPassport = (passport, _secretOrKey) => {
     const jwtOptions = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // header에 bearer스키마에 담겨온 토큰 해석할 것

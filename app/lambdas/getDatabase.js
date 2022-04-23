@@ -1,8 +1,23 @@
-// 람다에서의 서플라이 구조 : param 없음, return 있음
-const getDatabase = () => {
+import { MongoClient } from 'mongodb'
+const getDatabase = () => { // DB 내용 전반 제어.
+    const client = new MongoClient(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    let dbConnect = null
     return {
+        acceptDb(callback){
+            client.connect((err, db) => {
+                if(err || !db){
+                    return callback(err)
+                }
+                dbConnect = db.db('soccerdb');
+                console.log('DB 구성에서 몽고DB에 접속하다')
+                return callback()
+            })
+        },
+        getDb(){ return dbConnect}
 
     }
 }
-
-export default getDatabase;
+export default getDatabase

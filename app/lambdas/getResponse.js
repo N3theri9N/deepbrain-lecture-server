@@ -1,4 +1,4 @@
-const getResponse = () => {
+const getResponse = () => { // response 내용들을 관리
     return {
         successResponse(res, msg) {
             var data = {
