@@ -36,9 +36,17 @@ app.post('/login', cors(corsOptions), (req, res) => {
     UserService().login(req, res)
 })
 
-// passport jwt 인증처리 받고 맞으면 여기로 들어옴.
+// passport jwt 인증처리 받고 맞으면 여기로 들어옴. 로그인 중에서만 가능하다.
 app.get('/logout', passport.authenticate("jwt", {session: false}), (req, res) => {
     UserService().logout(req, res);
+})
+
+app.get('/getUsers', cors(corsOptions), (req, res) => {
+    UserService().getUsers(req, res);
+});
+
+app.post("/delUser", passport.authenticate("jwt", {session: false}), (req, res) =>{
+    UserService().delUser(req, res);
 })
 
 export default app

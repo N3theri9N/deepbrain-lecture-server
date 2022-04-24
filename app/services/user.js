@@ -45,9 +45,16 @@ export default function UserService() {
                 }
             })
         },
-        logout(req, res){
+        logout(req, res) {
             req.logout();
-            res.json({ msg : 'LOGOUT' });
+            res.json({msg: 'LOGOUT'});
+        },
+        getUsers(_req, res) {
+            User.find().exec(
+                (err, user) => {
+                    res.status(200).json({user});
+                }
+            );
         },
         checkDuplicateUserid(req, res) {
             User
@@ -67,12 +74,16 @@ export default function UserService() {
                     }
                 })
         },
-        getUserById(userid){
+        getUserById(req, res) {
+            const userid = req.body.userid
             User
                 .findById({userid: userid})
                 .exec((_err, user) => {
                     return user
                 })
+        },
+        delUser(req, res){
+            return "";
         }
     }
 }
